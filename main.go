@@ -6,12 +6,26 @@ import (
 	"strings"
 
 	"github.com/kataras/golog"
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
 
 	iamK8sGroups := strings.Split(os.Getenv("IAMGROUPS"), ",")
-	generateUserRoles(iamK8sGroups)
+	userRoles := generateUserRoles(iamK8sGroups)
+
+	var newConfig []MapUserConfig
+	for _, userRole := range userRoles {
+		newConfig = append(newConfig, MapUserConfig{
+			UserArn:  userRole.IAMArn,
+			Username: userRole.IAMUsername,
+			Groups:   userRole.K8sRoles,
+		})
+	}
+
+	roleStr, _ := yaml.Marshal(newConfig)
+	fmt.Println(string(roleStr))
+
 }
 
 func unique(strSlice []string) []string {
@@ -26,7 +40,7 @@ func unique(strSlice []string) []string {
 	return list
 }
 
-func generateUserRoles(iamK8sGroups []string) {
+func generateUserRoles(iamK8sGroups []string) map[string]UserRoles {
 	userRoles := make(map[string]UserRoles)
 	// For each iam, extract users and map them to their k8s roles
 	for _, iamK8sGroup := range iamK8sGroups {
@@ -44,9 +58,9 @@ func generateUserRoles(iamK8sGroups []string) {
 	for iamUsername := range userRoles {
 		userRoles[iamUsername] = userRoles[iamUsername].UniqueK8sRoles()
 	}
-	
-	fmt.Println(userRoles["ahmet.soykan"])
 
+	//fmt.Println(userRoles["ahmet.soykan"])
+	return userRoles
 }
 
 func extractIAMK8sFromString(str string) (string, string) {

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iam-eks-user-mapper
+  namespace: kube-system
+  labels:
+    app: iam-eks-user-mapper
+spec:
+  serviceAccountName: iam-eks-user-mapper
+  containers:
+  - image: 406421550649.dkr.ecr.eu-west-1.amazonaws.com/iam-eks-user-mapper:v0.0.1
+    imagePullPolicy: Always
+    name: iam-eks-user-mapper
+    env:
+      - name: AWS_DEFAULT_REGION
+        value: "eu-west-1"
+      - name: IAMGROUPS
+        value: "KubernetesAdmins::system:masters,FoodGroup::food:food-developers,GetirBackendGroup::getirsu:getir-developers|getirsu:adminn|getirsu:adminn"
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 3
+  imagePullSecrets:
+  - name: regcred
