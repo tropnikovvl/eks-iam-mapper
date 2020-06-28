@@ -15,6 +15,7 @@ func getAwsGroups(groupName string) *iam.GetGroupOutput {
 	})
 	if err != nil {
 		golog.Info("Session Olusturulamadi!")
+		os.Exit(1)
 	}
 
 	iamClient := iam.New(sess)

@@ -1,44 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
 	"github.com/kataras/golog"
-	"gopkg.in/yaml.v2"
 )
-
-func main() {
-
-	iamK8sGroups := strings.Split(os.Getenv("IAMGROUPS"), ",")
-	userRoles := generateUserRoles(iamK8sGroups)
-
-	var newConfig []MapUserConfig
-	for _, userRole := range userRoles {
-		newConfig = append(newConfig, MapUserConfig{
-			UserArn:  userRole.IAMArn,
-			Username: userRole.IAMUsername,
-			Groups:   userRole.K8sRoles,
-		})
-	}
-
-	roleStr, _ := yaml.Marshal(newConfig)
-	fmt.Println(string(roleStr))
-
-}
-
-func unique(strSlice []string) []string {
-	keys := make(map[string]bool)
-	list := []string{}
-	for _, entry := range strSlice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
-	}
-	return list
-}
 
 func generateUserRoles(iamK8sGroups []string) map[string]UserRoles {
 	userRoles := make(map[string]UserRoles)
@@ -72,4 +39,16 @@ func extractIAMK8sFromString(str string) (string, string) {
 	iam := splits[0]
 	k8s := splits[1]
 	return iam, k8s
+}
+
+func unique(strSlice []string) []string {
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range strSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }
