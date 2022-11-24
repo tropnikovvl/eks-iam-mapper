@@ -13,10 +13,8 @@ spec:
     name: iam-eks-user-mapper
     env:
       - name: AWS_DEFAULT_REGION
-        value: "eu-west-1"
+        value: "eu-central-1"
       - name: GROUPSANDROLES
-        value: "KubernetesAdmins::system:masters,FoodGroup::food:food-developers,BackendGroup::backend:developers|backend:adminn|backend:adminn"
+        value: "Admin::system:masters"
   restartPolicy: Never
   terminationGracePeriodSeconds: 3
-  imagePullSecrets:
-  - name: regcred

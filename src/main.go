@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"strings"
-	"time"
 
 	"github.com/kataras/golog"
 	"gopkg.in/yaml.v2"
@@ -60,9 +59,10 @@ func main() {
 		_, err = clientset.CoreV1().ConfigMaps("kube-system").Update(cf)
 		if err != nil {
 			golog.Error(err)
+			os.Exit(1)
 		} else {
 			golog.Info("Successfully updated user roles")
+			os.Exit(0)
 		}
-		time.Sleep(1 * time.Minute)
 	}
 }
