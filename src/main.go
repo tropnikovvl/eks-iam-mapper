@@ -1,11 +1,12 @@
 package main
 
 import (
+	"context"
 	"os"
 	"strings"
 
 	"github.com/kataras/golog"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -16,6 +17,7 @@ func main() {
 
 	// creates the in-cluster config
 	config, err := rest.InClusterConfig()
+	// config, err := clientcmd.BuildConfigFromFlags("", "/Users/vladislav_tropnikov/.kube/config")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -27,7 +29,7 @@ func main() {
 	}
 	for {
 		userRoles := generateUserRoles(iamK8sGroups)
-		cf, err := clientset.CoreV1().ConfigMaps("kube-system").Get("aws-auth", metav1.GetOptions{})
+		cf, err := clientset.CoreV1().ConfigMaps("kube-system").Get(context.TODO(), "aws-auth", metav1.GetOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -56,7 +58,7 @@ func main() {
 		}
 		cf.Data["mapUsers"] = string(roleStr)
 
-		_, err = clientset.CoreV1().ConfigMaps("kube-system").Update(cf)
+		_, err = clientset.CoreV1().ConfigMaps("kube-system").Update(context.TODO(), cf, metav1.UpdateOptions{})
 		if err != nil {
 			golog.Error(err)
 			os.Exit(1)

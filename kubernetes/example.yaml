@@ -15,6 +15,6 @@ spec:
       - name: AWS_DEFAULT_REGION
         value: "eu-central-1"
       - name: GROUPSANDROLES
-        value: "Admin::system:masters"
+        value: "Admin::system:masters,FoodGroup::food:food-developers,BackendGroup::backend:developers|backend:adminn|backend:adminn"
   restartPolicy: Never
   terminationGracePeriodSeconds: 3

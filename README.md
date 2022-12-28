@@ -1,11 +1,11 @@
-desc: updates auth-config of eks cluster every minute. it reads aws iam groups and mapped them to eks roles. it is forked from mentioned repos and aws config structure changed to work with oidc.
+## Description 
 
-example:
-Assuming you have 2 IAM groups devops and devs, and you want to give devops's members system:masters role and devs a developer role, you can do that via:
+Updates auth-config of EKS cluster every minute. 
 
-./app --iam-k8s-group=devops::system:masters,devs::developer
-./app --iam-k8s-group=devops::system:masters,devs::developer|manager (supports multiple kubernetes roles)
+it reads AWS IAM groups and mapped them to EKS roles. it is forked from mentioned repos and aws config structure changed to work with OIDC.
 
-Thanks to:
-    https://github.com/MindTickle/iam-eks-user-mapper
-    https://github.com/ygrene/iam-eks-user-mapper
+### Thanks to:
+
+* https://github.com/MindTickle/iam-eks-user-mapper
+* https://github.com/ygrene/iam-eks-user-mapper
+* https://github.com/ahmetsoykan/eks-iam-mapper
