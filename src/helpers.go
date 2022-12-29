@@ -33,7 +33,7 @@ func generateUserRoles(iamK8sGroups []string) map[string]UserRoles {
 func extractIAMK8sFromString(str string) (string, string) {
 	splits := strings.Split(str, "::")
 	if len(splits) != 2 {
-		golog.Infof("Error, [<groupname>]::[<ns>:<role>] It should have 2 indexes!")
+		golog.Error("[<groupname>]::[<ns>:<role>] It should have 2 indexes!")
 		os.Exit(1)
 	}
 	iam := splits[0]

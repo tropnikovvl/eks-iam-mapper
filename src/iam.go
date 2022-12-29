@@ -14,7 +14,7 @@ func getAwsGroups(groupName string) *iam.GetGroupOutput {
 		Region: aws.String(os.Getenv("AWS_DEFAULT_REGION")),
 	})
 	if err != nil {
-		golog.Info("Session Olusturulamadi!")
+		golog.Error("Problems when creating an AWS session!")
 		os.Exit(1)
 	}
 
@@ -25,7 +25,7 @@ func getAwsGroups(groupName string) *iam.GetGroupOutput {
 		MaxItems:  aws.Int64(500),
 	})
 	if err != nil {
-		golog.Errorf("There is a problem, %s", err)
+		golog.Error("There is a problem, %s", err)
 		os.Exit(1)
 	}
 	return group
