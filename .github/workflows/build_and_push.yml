@@ -31,9 +31,21 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files in the repository
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            src/**
+            go**
+            Dockerfile
 
       - name: Log in to the Container registry
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2.1.0
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -42,11 +54,13 @@ jobs:
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@57396166ad8aefe6098280995947635806a0e6ea # v4.1.1
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5 # v3.2.0
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
