@@ -26,7 +26,7 @@ jobs:
       #     egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - name: Checkout repository
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           fetch-depth: 0
 
@@ -49,7 +49,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96 # v4.3.0
+        uses: docker/metadata-action@c4ee3adeed93b1fa6a762f209fb01608c1a22f1e # v4.4.0
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
