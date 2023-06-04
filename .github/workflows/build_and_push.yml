@@ -32,7 +32,7 @@ jobs:
 
       - name: Get changed files in the repository
         id: changed-files-specific
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           files: |
             src/**
