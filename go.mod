@@ -3,7 +3,7 @@ module github.com/tropnikovvl/eks-iam-mapper
 go 1.19
 
 require (
-	github.com/aws/aws-sdk-go v1.44.254
+	github.com/aws/aws-sdk-go v1.44.274
 	github.com/kataras/golog v0.1.8
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.27.2
