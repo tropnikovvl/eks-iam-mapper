@@ -50,7 +50,7 @@ jobs:
 
       - name: Get changed files in the repository
         id: changed-files-specific
-        uses: tj-actions/changed-files@v40
+        uses: tj-actions/changed-files@v41
         with:
           files: |
             src/**
